@@ -1,0 +1,13 @@
+<%- include('_header', { title: 'Home' }) %>
+
+<div class="post-list">
+  <% posts.forEach(post => { %>
+  <article class="post-item">
+    <h2><a href="/posts/<%= post.id %>"><%= post.title %></a></h2>
+    <p><%= post.content.substring(0, 150) %>...</p>
+    <small><%= new Date(post.createdAt).toLocaleDateString() %></small>
+  </article>
+  <% }) %>
+</div>
+
+<%- include('_footer') %>
