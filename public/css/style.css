@@ -1,0 +1,66 @@
+/* public/css/style.css */
+body {
+  font-family: sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+header {
+  background: #333;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header a {
+  color: #fff;
+  text-decoration: none;
+}
+main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 5px;
+}
+.post-item {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+.post-item h2 a {
+  text-decoration: none;
+  color: #333;
+}
+.post-detail .post-content {
+  margin-top: 1rem;
+}
+.new-post-btn {
+  background: #5cb85c;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+.post-form .form-group {
+  margin-bottom: 1rem;
+}
+.post-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.post-form input,
+.post-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+}
+.post-form button {
+  background: #337ab7;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+footer p {
+  text-align: center;
+}
