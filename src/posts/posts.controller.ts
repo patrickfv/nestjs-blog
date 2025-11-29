@@ -9,6 +9,7 @@ export class PostsController {
     @Get()
     @Render('index')
     async root() {
+        // id 90e4f754-468a-48ea-a626-7275c17bcba1
         const posts = await this.postsService.findAll()
         return { posts }
     }
