@@ -1,0 +1,10 @@
+<%- include('_header', { title: post.title }) %>
+
+<article class="post-detail">
+  <h1><%= post.title %></h1>
+  <small><%= new Date(post.createdAt).toLocaleDateString() %></small>
+  <div class="post-content"><%- post.content.replace(/\n/g, '<br />') %></div>
+</article>
+<a href="/" class="back-link">&larr; Back to Home</a>
+
+<%- include('_footer') %>
