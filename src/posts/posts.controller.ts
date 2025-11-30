@@ -3,6 +3,7 @@ import { PostsService } from './posts.service';
 import type { Response } from 'express'
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 import { CommentsService } from 'src/comments/comments.service';
+import { marked } from 'marked';
 
 @Controller('posts')
 export class PostsController {
@@ -31,12 +32,15 @@ export class PostsController {
         res.redirect('/posts')
     }
 
-    @UseGuards(AuthenticatedGuard)
     @Get(':id')
     @Render('post')
     async post(@Param('id') id: string, @Request() req) {
         const post = await this.postsService.findOne(id)
         const comments = await this.commentsService.findByPostId(id)
+        if (post) {
+            post.content = marked.parse(post.content) as string
+        }
+
         return { post, user: req.session.user, comments }
     }
 }

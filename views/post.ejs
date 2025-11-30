@@ -1,5 +1,13 @@
+<%- include('_header', { title: post.title }) %>
 <a href="/" class="back-link">&larr; Back to Home</a>
 
+
+<article class="post-detail">
+  <h1><%= post.title %></h1>
+  <small><%= new Date(post.createdAt).toLocaleDateString() %></small>
+  <div class="post-content"><%- post.content %></div>
+</article>
+<a href="/" class="back-link">&larr; Back to Home</a>
   <section class="comments-section">
   <h3>Comments</h3>
 

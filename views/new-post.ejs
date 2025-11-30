@@ -7,9 +7,89 @@
   </div>
   <div class="form-group">
     <label for="content">Content</label>
+    <div class="toolbar">
+      <button type="button" id="upload-image-btn">Upload Image</button>
+    </div>
     <textarea id="content" name="content" rows="10" required></textarea>
   </div>
   <button type="submit">Submit</button>
 </form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const uploadBtn = document.getElementById('upload-image-btn');
+    const contentTextarea = document.getElementById('content');
+
+    uploadBtn.addEventListener('click', async () => {
+      try {
+        const [fileHandle] = await window.showOpenFilePicker({
+          types: [
+            {
+              description: 'Images',
+              accept: { 'image/*': ['.png', '.jpeg', '.jpg', '.gif', '.webp'] },
+            },
+          ],
+        });
+
+        const file = await fileHandle.getFile();
+        uploadFile(file);
+      } catch (error) {
+        // An AbortError is thrown when the user cancels file selection, we ignore it
+        if (error.name !== 'AbortError') {
+          console.error('FilePicker Error:', error);
+        }
+      }
+    });
+
+    function uploadFile(file) {
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Display a simple loading indicator
+      uploadBtn.disabled = true;
+      uploadBtn.innerText = 'Uploading...';
+
+      fetch('/uploads/image', {
+        method: 'POST',
+        body: formData,
+        // Note: Do not manually set the Content-Type header when using FormData
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.url) {
+            // Insert the returned image URL into the textarea
+            const markdownImage = `![${file.name}](${data.url})`;
+            insertAtCursor(contentTextarea, markdownImage);
+          } else {
+            alert('Upload failed. Please try again.');
+          }
+        })
+        .catch((error) => {
+          console.error('Upload Error:', error);
+          alert('An error occurred during upload.');
+        })
+        .finally(() => {
+          uploadBtn.disabled = false;
+          uploadBtn.innerText = 'Upload Image';
+        });
+    }
+
+    // Helper function to insert text at the cursor position
+    function insertAtCursor(myField, myValue) {
+      if (myField.selectionStart || myField.selectionStart === 0) {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value =
+          myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+        myField.selectionStart = startPos + myValue.length;
+        myField.selectionEnd = startPos + myValue.length;
+      } else {
+        myField.value += myValue;
+      }
+    }
+  });
+</script>
 
 <%- include('_footer') %>
