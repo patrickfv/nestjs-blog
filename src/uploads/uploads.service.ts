@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { S3Client,  PutObjectAclCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import crypto from 'crypto'
 
 const S3_ENDPOINT = 'https://objstorage.leapcell.io'
