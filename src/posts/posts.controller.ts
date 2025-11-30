@@ -2,10 +2,13 @@ import { Controller, Get, Render, Param, Post, Body, Res, UseGuards, Request} fr
 import { PostsService } from './posts.service';
 import type { Response } from 'express'
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
+import { CommentsService } from 'src/comments/comments.service';
 
 @Controller('posts')
 export class PostsController {
-    constructor(private readonly postsService: PostsService) {}
+    constructor(
+        private readonly postsService: PostsService,
+        private readonly commentsService: CommentsService) {}
 
     @Get()
     @Render('index')
@@ -33,6 +36,7 @@ export class PostsController {
     @Render('post')
     async post(@Param('id') id: string, @Request() req) {
         const post = await this.postsService.findOne(id)
-        return { post, user: req.session.user }
+        const comments = await this.commentsService.findByPostId(id)
+        return { post, user: req.session.user, comments }
     }
 }
