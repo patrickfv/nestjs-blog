@@ -15,7 +15,6 @@ export class PostsController {
     @Render('index')
     @UseGuards(AuthenticatedGuard)
     async root(@Request() req) {
-        // id 90e4f754-468a-48ea-a626-7275c17bcba1
         const posts = await this.postsService.findAll()
         return { posts, user: req.session.user }
     }
