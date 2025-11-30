@@ -9,8 +9,15 @@
   <body>
     <header>
       <h1><a href="/">Blog Nestjs</a></h1>
-      <a href="/posts/new" class="new-post-btn">Nova Postagem</a>
+      <div class="user-actions">
+        <% if (user) { %>
+        <span>Bem Vindo, <%= user.username %></span>
+        <a href="/posts/new" class="new-post-btn">Nova Postagem</a>
+        <a href="/auth/logout">Sair</a>
+        <% } else { %>
+        <a href="/auth/login">Entrar</a>
+        <a href="/users/register">Cadastre-se</a>
+        <% } %>
+      </div>
     </header>
-    <main></main>
-  </body>
-</html>
+    <main>
