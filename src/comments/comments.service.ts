@@ -12,22 +12,46 @@ export class CommentsService {
         private commentsRepository: Repository<Comment>
     ){}
 
-    findByPostId(postId: string):Promise<Comment[]> {
-        return this.commentsRepository.find({
+    async findByPostId(postId: string):Promise<Comment[]> {
+        const comments = await this.commentsRepository.find({
             where: { post: { id: postId } },
             relations: ['user'],
             order: {
                 createdAt: 'ASC'
             }
         })
+
+        return this.structureComments(comments)
     }
 
-    async create(content: string, user: User, post: Post): Promise<Comment> {
+    private structureComments(comments: Comment[]): Comment[] {
+        const commentMap = new Map<string, Comment>()
+        comments.forEach( comment => {
+            comment.replies = []
+            commentMap.set(comment.id, comment)
+        })
+        
+        const rootComments: Comment[] = []
+        comments.forEach(comment => {
+            if (comment.parent) {
+                const parentComment = commentMap.get(comment.parent.id)
+                if (parentComment) {
+                    parentComment.replies.push(comment)
+                }
+            } else {
+                rootComments.push(comment)
+            }
+        })
+        return rootComments
+    }
+
+    async create(content: string, user: User, post: Post, parentId?: string): Promise<Comment> {
         const newComment = this.commentsRepository.create({
             content,
             user,
-            post
+            post,
+            parent: parentId ? ({id: parentId} as Comment) : undefined
         })
-        return this.commentsRepository.save(newComment)
+        return (await this.commentsRepository.save([newComment]))[0]
     }
 }

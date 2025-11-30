@@ -18,4 +18,10 @@ export class Comment {
 
     @ManyToOne(() => Post, post => post.comments)
     post: Post
+
+    @ManyToOne(() => Comment, comment => comment.replies, { nullable: true })
+    parent: Comment
+
+    @ManyToOne(() => Comment, comment => comment.parent)
+    replies: Comment[]
 }

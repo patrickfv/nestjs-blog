@@ -12,6 +12,7 @@ export class CommentsController {
     async create(
         @Param('postId') postId: string,
         @Body('content') content: string,
+        @Body('parentId') parentId: string,
         @Req() req: Request,
         @Res() res: Response,
 

@@ -1,0 +1,15 @@
+<% comments.forEach(comment => { %>
+<div class="comment-item" style="margin-left: <%= depth * 20 %>px;">
+  <p class="comment-content"><%= comment.content %></p>
+  <small>
+    By <strong><%= comment.user.username %></strong> on <%= new Date(comment.createdAt).toLocaleDateString() %>
+  </small>
+  <% if (user) { %>
+  <button class="reply-btn" data-comment-id="<%= comment.id %>">Reply</button>
+  <% } %>
+</div>
+
+<% if (comment.replies && comment.replies.length > 0) { %> 
+  <%- include('_comment', { comments: comment.replies, user: user, post: post, depth: depth + 1 }) %> 
+<% } %> 
+<% }) %>
