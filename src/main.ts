@@ -21,7 +21,7 @@ async function bootstrap() {
   app.use(
     session({
       store: redisStore, // Use Redis for storage
-      secret: 'WCBCcpkkcTrcpLyCua', // Replace with a random, complex string
+      secret: process.env.TYPEORM_SECRETKEY, // Replace with a random, complex string
       resave: false,
       saveUninitialized: false,
       cookie: {

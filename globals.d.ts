@@ -11,5 +11,6 @@ namespace NodeJS {
         TYPEORM_MIGRATIONS: string,
         TYPEORM_ENTITIES_DIR: string,
         TYPEORM_MIGRATIONS_DIR: string,
+        TYPEORM_SECRETKEY: string
     }
 }
