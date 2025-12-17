@@ -9,7 +9,7 @@ import session from 'express-session'
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const redisClient = createClient({
-    url:  "rediss://default:Ae00000eFmpB4x5rrrA6SEqZvkuFFn9KzHKu+WCBCcpkkcTrcpLyCua++mo1qml0uvqzmKv@personalblog-jmhb-cdfh-748780.leapcell.cloud:6379",
+    url:  process.env.REDIS_URL,
   })
   await redisClient.connect().catch(console.error)
 
